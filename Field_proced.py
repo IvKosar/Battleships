@@ -176,7 +176,7 @@ def generate_field():
 def generate_ship(size):
     """
 
-    :return:
+    :return: list
     """
     import random
 
