@@ -41,7 +41,6 @@ def read_field(filename):
 
     return field
 
-
 # print(read_field('field.txt'))
 
 
@@ -73,6 +72,7 @@ def ship_size(field, list_coord):
         except:
             pass
         length = cur - column
+        print('1,',length)
 
         cur = column
         try:
@@ -81,7 +81,8 @@ def ship_size(field, list_coord):
         except:
             pass
         length += column - cur - 1
-        if length != 1: return  length
+        print('2,',length)
+        if length > 1: return  length
 
         # Ship in column
         cur = row
@@ -99,12 +100,14 @@ def ship_size(field, list_coord):
         except:
             pass
         length += row - cur - 1
+        print(length)
     else:
         length = 0
 
     return length
 #print(field[2][4])
-#print(ship_size(field, (2,4)))
+field = read_field('field.txt')
+print(ship_size(field, (6,0)))
 
 
 def is_valid(field):
@@ -121,7 +124,7 @@ def is_valid(field):
             if shp_size > 4:
                 return False
             req_sum += shp_size
-            print(i,j,req_sum)
+            print((i,j), shp_size)
     print(req_sum)
     return req_sum == 50
 #print(is_valid(field))
@@ -137,7 +140,7 @@ def field_to_str(field):
     for row in field:
         output += ''.join(row) + '\n'
 
-    return  output
+    return output
 #print(field_to_str(field))
 
 
@@ -151,7 +154,6 @@ def generate_field():
     ships_size = [4,3,2,1]
 
     field = generate_ship(4)
-    print()
 
     #count is a quantity of each type of ship
     for count in range(1, len(ships_size)):
@@ -163,14 +165,19 @@ def generate_field():
                 ship_area = make_shp_area(ship)
 
             field.extend(ship)
-    print(field)
-    empty_field = set([(i, j) for i in range(10) for j in range(10)])
-    empty_points = list(empty_field.difference(field))
-    field = list(field)
-    field.extend(empty_points)
-    field.sort()
 
-    return field
+    # make list of field in stars and spaces
+    res_field = []
+    for i in range(10):
+        row = []
+        for j in range(10):
+            if (i, j) in field:
+                row.append('*')
+            else:
+                row.append(' ')
+        res_field.append(row)
+
+    return res_field
 
 
 def generate_ship(size):
@@ -193,7 +200,7 @@ def generate_ship(size):
         ship_coord = [(i, row_col) for i in range(first_point, first_point + size)]
 
     return ship_coord
-#print(generate_ship(1))
+
 
 def make_shp_area(shp_coords):
     """
@@ -218,5 +225,20 @@ def make_shp_area(shp_coords):
     return area
 
 #make_shp_area([(0,9),(1,9)])
+#field = generate_field()############################
+#print(field_to_str(field))
+#print(is_valid(field))
 
-generate_field()
+'''count = 0
+for i in range(1000):
+    if is_valid(generate_field()):
+        count += 1
+
+print(count)'''
+
+def field_to_file(field):
+    with open('field.txt', 'w') as file:
+        file.write(field)
+
+#field_to_file(field_to_str(field))
+#print(is_valid(field))
