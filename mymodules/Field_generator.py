@@ -1,19 +1,29 @@
-
+# File: Field_generator.py
+# This module generates field for game
+# Created by Ivan Kosarevych
+# 07.02.16 13:50:56
 
 def generate_field():
     """
+    :return: list(list)
 
-    :return:
+    This function puts all ships on the field using func. generate_ship
+    and make_ship_area
     """
     import random
 
     ships_size = [4,3,2,1]
 
+    # put 4xShip on field
     field = generate_ship(4)
 
-    #count is a quantity of each type of ship
+    # put other ships
+    # count is a quantity of each type of ship
     for count in range(1, len(ships_size)):
+        # put as many ships of each type as required
         for i in range(count + 1):
+            # generate ship and check whether it doesn't touch others,
+            # otherwise regenerate it until it touches no other ship
             ship = generate_ship(ships_size[count])
             ship_area = make_shp_area(ship)
             while set(ship_area).intersection(set(field)) != set():
@@ -22,7 +32,7 @@ def generate_field():
 
             field.extend(ship)
 
-    # make list of field in stars and spaces
+    # make list of field in stars for part of ships and spaces for empty points
     res_field = []
     for i in range(10):
         row = []
@@ -38,15 +48,20 @@ def generate_field():
 
 def generate_ship(size):
     """
+    :param size: int
+    :return: list(list)
 
-    :return: list
+    Generates coordinates for ship of given size
+    Example for size 4: [(1,2),(1,3),(1,4),(1,5)]
     """
     import random
 
     # Choose rotation(horizontal/vertical)
     rotations = ['horizontal', 'vertical']
     rotation = random.choice(rotations)
+    # Choose number of a row/column
     row_col = random.randrange(0,10)
+    # Choose first point of ship
     first_point = random.randrange(0, 10 - size)
 
     # find ship coordinates
@@ -60,27 +75,31 @@ def generate_ship(size):
 
 def make_shp_area(shp_coords):
     """
+    :param shp_coords: list
+    :return: list
 
-    :param shp_coords:
-    :return:
+    Generates coordinates of area around a ship with this ship, where others ships aren't allowed to be placed
+    Example:
+    xxxx
+    x**x
+    xxxx
     """
     row_start = shp_coords[0][0] - 1 if shp_coords[0][0] - 1 > 0 else 0
-    #print(row_start)
     row_end = shp_coords[-1][0] + 1 if shp_coords[-1][0] + 1 < 9 else 9
-    #print(row_end)
+
     col_start = shp_coords[0][1] - 1 if shp_coords[0][1] - 1 > 0 else 0
-    #print(col_start)
     col_end = shp_coords[-1][1] + 1 if shp_coords[-1][1] + 1 < 9 else 9
 
     area = []
     for row in range(row_start, row_end + 1):
         for column in range(col_start, col_end + 1):
-            area_dot = (row,column)
-            area.append(area_dot)
+            area_point = (row,column)
+            area.append(area_point)
 
     return area
 
 #field = generate_field()############################
+'''from Read_write_field import field_to_str
+print(field_to_str(generate_field()))
 
-
-#print(is_valid(field))
+#print(is_valid(field))'''
