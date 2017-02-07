@@ -97,9 +97,3 @@ def make_shp_area(shp_coords):
             area.append(area_point)
 
     return area
-
-#field = generate_field()############################
-'''from Read_write_field import field_to_str
-print(field_to_str(generate_field()))
-
-#print(is_valid(field))'''

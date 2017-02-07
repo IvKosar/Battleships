@@ -33,17 +33,16 @@ def has_ship(field, list_coord):
     :return: bool
     """
     return field[list_coord[0]][list_coord[1]] != ' '
-#field = read_field('field.txt')
-#print(has_ship(field, ('G',10)))
 
 
 def ship_size(field, list_coord):
     """
     :param field: list(list)
     :param list_coord: tuple
-    :return: int
+    :return: tuple
+
+    Example: 1X4 ship will return (1,4)
     """
-    #lst_coord = convert_coordinates(coord)
     row, column = list_coord[0],list_coord[1]
     if has_ship(field, list_coord):
         check = True
@@ -88,11 +87,8 @@ def ship_size(field, list_coord):
             length += row - cur - 1 if not check else row - cur
             check = False
 
-        if check: return 1
+        if check: return (1, 1)
     else:
         length = 0
 
-    return length
-#print(field[2][4])
-#field = read_field('field.txt')
-#print(ship_size(field, (9,0)))
+    return (1, length)

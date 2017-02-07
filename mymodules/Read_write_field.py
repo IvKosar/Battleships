@@ -21,8 +21,7 @@ def read_field(filename):
             field.append(list(line[:-1]))
 
     return field
-#field  = read_field('field.txt')
-#print(read_field('field.txt'))
+
 
 def is_valid(field):
     """
@@ -36,13 +35,13 @@ def is_valid(field):
     req_sum = 0
     for i in range(10):
         for j in range(10):
-            shp_size = ship_size(field,(i,j))
+            shp_size = ship_size(field,(i,j))[1]
             if shp_size > 4:
                 return False
             req_sum += shp_size
 
     return req_sum == 50
-#print(is_valid(field))
+
 
 def field_to_str(field):
     """
@@ -56,7 +55,7 @@ def field_to_str(field):
         output += ''.join(row) + '\n'
 
     return output
-#print(field_to_str(field))
+
 
 def field_to_file(field):
     """
@@ -67,4 +66,3 @@ def field_to_file(field):
     """
     with open('field.txt', 'w') as file:
         file.write(field)
-#field_to_file(field_to_str(field))
