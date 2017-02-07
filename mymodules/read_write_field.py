@@ -1,10 +1,12 @@
-# File: Read_write_field.py
-# This module reads a field from text file, checks field validity,
-# converts field in list to field in string, writes field in string to text file
-# Created by Ivan Kosarevych
-# 05.02.16 17:57:12
+"""
+File: Read_write_field.py
+This module reads a field from text file, checks field validity,
+converts field in list to field in string, writes field in string to text file
+Created by Ivan Kosarevych
+05.02.16 17:57:12
+"""
 
-from Field_info import ship_size
+from field_info import ship_size
 
 
 def read_field(filename):
@@ -35,7 +37,7 @@ def is_valid(field):
     req_sum = 0
     for i in range(10):
         for j in range(10):
-            shp_size = ship_size(field,(i,j))[1]
+            shp_size = ship_size(field, (i, j))[1]
             if shp_size > 4:
                 return False
             req_sum += shp_size

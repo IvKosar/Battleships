@@ -1,8 +1,10 @@
-# File: Field_info.py
-# This module consists functions which give information about the field,
-# such as CHECK whether the point on field has a ship AND length of ship in point SEARCH
-# Created by Ivan Kosarevych
-# 07.02.16 09:11:35
+"""
+File: Field_info.py
+This module consists functions which give information about the field,
+such as CHECK whether the point on field has a ship AND length of ship in point SEARCH
+Created by Ivan Kosarevych
+07.02.16 09:11:35
+"""
 
 def convert_coordinates(coord):
     """
@@ -22,7 +24,7 @@ def convert_coordinates(coord):
 
     try:
         return rel[coord]
-    except:
+    except IndexError:
         return
 
 
@@ -43,9 +45,10 @@ def ship_size(field, list_coord):
 
     Example: 1X4 ship will return (1,4)
     """
-    row, column = list_coord[0],list_coord[1]
+    row, column = list_coord[0], list_coord[1]
     if has_ship(field, list_coord):
         check = True
+        rotation = 'row'
         # Ship in row
         # Go right in row
         if column + 1 <= 9 and field[row][column + 1] == '*':
@@ -70,6 +73,7 @@ def ship_size(field, list_coord):
         # Ship in column
         # Go up in column
         if row + 1 <= 9 and field[row + 1][column] == '*':
+            rotation = 'column'
             cur = row
             while field[cur][column] != ' ' and cur <= 9:
                 cur += 1
@@ -79,6 +83,7 @@ def ship_size(field, list_coord):
 
         # Go down in column
         if row - 1 >= 0 and field[row - 1][column] == '*':
+            rotation = 'column'
             if check: length = 0
             cur = row
             while field[cur][column] != ' ' and cur >= 0:
@@ -89,6 +94,6 @@ def ship_size(field, list_coord):
 
         if check: return (1, 1)
     else:
-        length = 0
+        length = (0, 0)
 
-    return (1, length)
+    return (1, length) if rotation == 'row' else (length, 1)

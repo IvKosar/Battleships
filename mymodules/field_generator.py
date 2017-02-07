@@ -1,7 +1,9 @@
-# File: Field_generator.py
-# This module generates field for game
-# Created by Ivan Kosarevych
-# 07.02.16 13:50:56
+"""
+ File: Field_generator.py
+ This module generates field for game
+ Created by Ivan Kosarevych
+ 07.02.16 13:50:56
+"""
 
 def generate_field():
     """
@@ -12,7 +14,7 @@ def generate_field():
     """
     import random
 
-    ships_size = [4,3,2,1]
+    ships_size = [4, 3, 2, 1]
 
     # put 4xShip on field
     field = generate_ship(4)
@@ -60,7 +62,7 @@ def generate_ship(size):
     rotations = ['horizontal', 'vertical']
     rotation = random.choice(rotations)
     # Choose number of a row/column
-    row_col = random.randrange(0,10)
+    row_col = random.randrange(0, 10)
     # Choose first point of ship
     first_point = random.randrange(0, 10 - size)
 
@@ -78,7 +80,8 @@ def make_shp_area(shp_coords):
     :param shp_coords: list
     :return: list
 
-    Generates coordinates of area around a ship with this ship, where others ships aren't allowed to be placed
+    Generates coordinates of area around a ship with this ship,
+    where others ships aren't allowed to be placed
     Example:
     xxxx
     x**x
@@ -93,7 +96,7 @@ def make_shp_area(shp_coords):
     area = []
     for row in range(row_start, row_end + 1):
         for column in range(col_start, col_end + 1):
-            area_point = (row,column)
+            area_point = (row, column)
             area.append(area_point)
 
     return area
