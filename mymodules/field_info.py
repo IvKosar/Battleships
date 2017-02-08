@@ -48,7 +48,7 @@ def ship_size(field, list_coord):
     row, column = list_coord[0], list_coord[1]
     if has_ship(field, list_coord):
         check = True
-        rotation = 'row'
+        orientation = 'row'
         # Ship in row
         # Go right in row
         if column + 1 <= 9 and field[row][column + 1] == '*':
@@ -73,7 +73,7 @@ def ship_size(field, list_coord):
         # Ship in column
         # Go up in column
         if row + 1 <= 9 and field[row + 1][column] == '*':
-            rotation = 'column'
+            orientation = 'column'
             cur = row
             while field[cur][column] != ' ' and cur <= 9:
                 cur += 1
@@ -83,7 +83,7 @@ def ship_size(field, list_coord):
 
         # Go down in column
         if row - 1 >= 0 and field[row - 1][column] == '*':
-            rotation = 'column'
+            orientation = 'column'
             if check: length = 0
             cur = row
             while field[cur][column] != ' ' and cur >= 0:
@@ -96,4 +96,4 @@ def ship_size(field, list_coord):
     else:
         return (0, 0)
 
-    return (1, length) if rotation == 'row' else (length, 1)
+    return (1, length) if orientation == 'row' else (length, 1)

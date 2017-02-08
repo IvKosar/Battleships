@@ -59,15 +59,15 @@ def generate_ship(size):
     import random
 
     # Choose rotation(horizontal/vertical)
-    rotations = ['horizontal', 'vertical']
-    rotation = random.choice(rotations)
+    orientations = ['horizontal', 'vertical']
+    orientation = random.choice(orientations)
     # Choose number of a row/column
     row_col = random.randrange(0, 10)
     # Choose first point of ship
     first_point = random.randrange(0, 10 - size)
 
     # find ship coordinates
-    if rotation == 'horizontal':
+    if orientation == 'horizontal':
         ship_coord = [(row_col, i) for i in range(first_point, first_point + size)]
     else:
         ship_coord = [(i, row_col) for i in range(first_point, first_point + size)]
@@ -82,7 +82,8 @@ def make_shp_area(shp_coords):
 
     Generates coordinates of area around a ship with this ship,
     where others ships aren't allowed to be placed
-    Example:
+    Example of shp_cooords: [(1,1),(1,2),(1,3)] - every tuple is a coordinate of point on field
+    Example of area:
     xxxx
     x**x
     xxxx
