@@ -94,6 +94,6 @@ def ship_size(field, list_coord):
 
         if check: return (1, 1)
     else:
-        length = (0, 0)
+        return (0, 0)
 
     return (1, length) if rotation == 'row' else (length, 1)
