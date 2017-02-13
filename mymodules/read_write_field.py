@@ -23,7 +23,7 @@ def read_field(filename):
             field.append(list(line[:-1]))
 
     return field
-field = read_field('field.txt')
+#field = read_field('field.txt')
 
 def is_valid(field):
     """
@@ -45,7 +45,7 @@ def is_valid(field):
             req_sum += shp_len
 
     return req_sum == 50
-print(is_valid(field))
+#print(is_valid(field))
 
 def field_to_str(field):
     """
