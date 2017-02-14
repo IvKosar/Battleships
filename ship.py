@@ -21,14 +21,14 @@ class Ship(object):
             self.__hit.append(False)
 
 
-    def shoot_at(self, tuple):
+    def shoot_at(self, point):
         if self.horizontal:
-            deck = tuple[1] - self.bow[1]
+            deck = point[1] - self.bow[1]
         else:
-            deck = tuple[0] - self.bow[0]
+            deck = point[0] - self.bow[0]
 
         self.__hit[deck] = True
-        print(self.__hit)
+
 
 class Field:
     def __init__(self):
@@ -53,8 +53,21 @@ class Field:
                 field.extend(ship_coordiantes)
                 length = (1, ships_size[count]) if horizontal else (ships_size[count], 1)
                 ship_object = Ship(length, ship_coordiantes[0], horizontal = horizontal)
-                for coor in ship_coordiantes:
+                for coord in ship_coordiantes:
                     self.ships[coord[0]][coord[1]] = ship_object
+
+
+    def shoot_at(self, point):
+        """
+
+        :param point:
+        :return:
+        """
+        row,column = point
+        if self.ships[row][column]:
+            self.ships[row][column].shoot_at(point)
+        else:
+            self.sh
 
 
 

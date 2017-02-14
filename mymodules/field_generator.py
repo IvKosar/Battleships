@@ -72,7 +72,7 @@ def generate_ship(size):
     else:
         ship_coord = [(i, row_col) for i in range(first_point, first_point + size)]
 
-    return orientation, ship_coord
+    return ship_coord
 
 
 def make_shp_area(shp_coords):
@@ -101,3 +101,4 @@ def make_shp_area(shp_coords):
             area.append(area_point)
 
     return area
+generate_field()
