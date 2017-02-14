@@ -101,4 +101,4 @@ def make_shp_area(shp_coords):
             area.append(area_point)
 
     return area
-generate_field()
+#generate_field()
