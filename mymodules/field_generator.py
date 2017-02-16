@@ -29,13 +29,10 @@ def generate_ship(size):
     else:
         ship_coord = [(i, row_col) for i in range(first_point, first_point + size)]
 
-<<<<<<< HEAD
+
     horizontal = True if orientation == 'horizontal' else False
 
     return horizontal, ship_coord
-=======
-    return ship_coord
->>>>>>> origin/master
 
 
 def make_shp_area(shp_coords):
@@ -63,9 +60,4 @@ def make_shp_area(shp_coords):
             area_point = (row, column)
             area.append(area_point)
 
-<<<<<<< HEAD
     return area
-=======
-    return area
-#generate_field()
->>>>>>> origin/master
