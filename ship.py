@@ -1,6 +1,7 @@
 """
 
 """
+from field_generator import *
 
 class Ship(object):
     """
@@ -32,7 +33,7 @@ class Ship(object):
 
 class Field:
     def __init__(self):
-        self.ships = [[None for i in range(10)] for j in range(10)]
+        self._ships = [[None for i in range(10)] for j in range(10)]
         ships_size = [4, 3, 2, 1]
         field = []
 
@@ -54,7 +55,7 @@ class Field:
                 length = (1, ships_size[count]) if horizontal else (ships_size[count], 1)
                 ship_object = Ship(length, ship_coordiantes[0], horizontal = horizontal)
                 for coord in ship_coordiantes:
-                    self.ships[coord[0]][coord[1]] = ship_object
+                    self._ships[coord[0]][coord[1]] = ship_object
 
 
     def shoot_at(self, point):
@@ -64,67 +65,48 @@ class Field:
         :return:
         """
         row,column = point
-        if self.ships[row][column]:
-            self.ships[row][column].shoot_at(point)
-        else:
-            self.sh
+        if self._ships[row][column]:
+            self._ships[row][column].shoot_at(point)
+
+        self._ships[row][column] = True
 
 
 
-def generate_ship(size):
-    """
-    :param size: int
-    :return: list(list)
+    def field_with_ships(self):
+        """
 
-    Generates coordinates for ship of given size
-    Example for size 4: [(1,2),(1,3),(1,4),(1,5)]
-    """
-    import random
+        :return:
+        """
+        field_str = ''
+        for row in range(10):
+            for column in range(10):
+                if self._ships[row][column] is True:
+                    field_str += 'X'
+                elif self._ships[row][column]:
+                    field_str += '*'
+                else:
+                    field_str += ' '
 
-    # Choose rotation(horizontal/vertical)
-    orientations = ['horizontal', 'vertical']
-    orientation = random.choice(orientations)
-    # Choose number of a row/column
-    row_col = random.randrange(0, 10)
-    # Choose first point of ship
-    first_point = random.randrange(0, 10 - size)
+            field_str += '\n'
 
-    # find ship coordinates
-    if orientation == 'horizontal':
-        ship_coord = [(row_col, i) for i in range(first_point, first_point + size)]
-    else:
-        ship_coord = [(i, row_col) for i in range(first_point, first_point + size)]
-
-    horizontal = True if orientation == 'horizontal' else False
-
-    return horizontal, ship_coord
+        return field_str
 
 
-def make_shp_area(shp_coords):
-    """
-    :param shp_coords: list
-    :return: list
+    def field_without_ships(self):
+        """
 
-    Generates coordinates of area around a ship with this ship,
-    where others ships aren't allowed to be placed
-    Example of shp_cooords: [(1,1),(1,2),(1,3)] - every tuple is a coordinate of point on field
-    Example of area:
-    xxxx
-    x**x
-    xxxx
-    """
-    row_start = shp_coords[0][0] - 1 if shp_coords[0][0] - 1 > 0 else 0
-    row_end = shp_coords[-1][0] + 1 if shp_coords[-1][0] + 1 < 9 else 9
+        :return: str
+        """
+        field = Field.field_with_ships(self)
+        field.replace('*', ' ')
 
-    col_start = shp_coords[0][1] - 1 if shp_coords[0][1] - 1 > 0 else 0
-    col_end = shp_coords[-1][1] + 1 if shp_coords[-1][1] + 1 < 9 else 9
+        return field
 
-    area = []
-    for row in range(row_start, row_end + 1):
-        for column in range(col_start, col_end + 1):
-            area_point = (row, column)
-            area.append(area_point)
 
-    return area
+
 
 field = Field()
+
+field.shoot_at((0,0))
+print(field._ships)
+print(field.field_with_ships())
