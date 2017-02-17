@@ -13,13 +13,13 @@ class Ship(object):
         :param bow:
         :param horizontal:
         """
-        self.__length = length
+        self._length = length
         self.bow = bow
         self.horizontal = horizontal
-        self.__hit = []
+        self._hit = []
         position_in_length = 1 if self.horizontal else 0
-        for i in range(self.__length[position_in_length]):
-            self.__hit.append(False)
+        for i in range(self._length[position_in_length]):
+            self._hit.append(False)
 
 
     def shoot_at(self, point):
@@ -28,7 +28,7 @@ class Ship(object):
         else:
             deck = point[0] - self.bow[0]
 
-        self.__hit[deck] = True
+        self._hit[deck] = True
 
 
 class Field:
@@ -98,15 +98,60 @@ class Field:
         :return: str
         """
         field = Field.field_with_ships(self)
-        field.replace('*', ' ')
+        field = field.replace('*', ' ')
 
         return field
 
 
+class Player:
+    """
+
+    """
+    def __init__(self, name):
+        """
+
+        :param name:
+        """
+        self._name = name
 
 
-field = Field()
+    def read_position(self):
+        """
 
-field.shoot_at((0,0))
-print(field._ships)
-print(field.field_with_ships())
+        :return:
+        """
+        from string import ascii_uppercase
+
+        battleship_positions = [let + str(i) for let in ascii_uppercase[:10] for i in range(10)]
+        list_positions = [(row, column) for row in range(10)]
+        convert_table = dict(zip(battleship_positions, list_positions))
+
+        battleship_position  = input(self.name + ', enter position to shoot at: ').strip()
+        while battleship_position not in battleship_positions:
+            battleship_position = input('There is no position you entered, try again: ').strip()
+
+        return convert_table[battleship_position]
+
+
+class Game:
+    """
+
+    """
+    def __init__(self):
+        """
+
+        """
+        self._field = [Field(), Field()]
+        self._players = [Player('df'), Player('dfd')]
+        self._current_player = 0
+
+    print(Game()._field[0])
+    print(Game()._field[0].field_with_ships())
+
+game = Game()
+#field = Field()
+
+#field.shoot_at((5,5))
+#field.shoot_at((5,6))
+#print(field._ships)
+#print(field.field_without_ships())
