@@ -16,8 +16,9 @@ class Ship(object):
         self._length = length
         self.bow = bow
         self.horizontal = horizontal
-        self._hit = []
         position_in_length = 1 if self.horizontal else 0
+        self._hit = [False for i in range(self._length[position_in_length])]
+
         for i in range(self._length[position_in_length]):
             self._hit.append(False)
 
@@ -67,6 +68,8 @@ class Field:
         row,column = point
         if self._ships[row][column]:
             self._ships[row][column].shoot_at(point)
+            self._ships[row][column] = True
+            return True
 
         self._ships[row][column] = True
 
@@ -123,7 +126,8 @@ class Player:
         from string import ascii_uppercase
 
         battleship_positions = [let + str(i) for let in ascii_uppercase[:10] for i in range(10)]
-        list_positions = [(row, column) for row in range(10)]
+        print()
+        list_positions = [(row, column) for row in range(1, 10 + 1)]
         convert_table = dict(zip(battleship_positions, list_positions))
 
         battleship_position  = input(self.name + ', enter position to shoot at: ').strip()
@@ -141,14 +145,49 @@ class Game:
         """
 
         """
+        import os
+
+        player1_name = input('Player 1, enter your name: ')
+        os.system('cls')############################################### TO SOLVE
+        player2_name = input('Player 2, enter your name: ')
+
+        self._players = [Player(player1_name), Player(player2_name)]
         self._field = [Field(), Field()]
-        self._players = [Player('df'), Player('dfd')]
         self._current_player = 0
 
-    print(Game()._field[0])
-    print(Game()._field[0].field_with_ships())
+    def shoot_at(self, player_index, field_index):
+        """
 
-game = Game()
+        :param point:
+        :return:
+        """
+        point = self._players[player_index].read_position()
+        return self._field[field_index].shoot_at(point)
+
+
+    def field_with_ships(self, index):
+        """
+
+        :param index:
+        :return:
+        """
+        print(self._field[index].field_with_ships())
+
+
+
+    def field_without_ships(self, index):
+        """
+
+        :param index:
+        :return:
+        """
+        print(self._field[index].field_without_ships())
+
+
+
+
+
+#game = Game()
 #field = Field()
 
 #field.shoot_at((5,5))
