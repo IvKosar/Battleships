@@ -16,11 +16,9 @@ class Ship(object):
         self._length = length
         self.bow = bow
         self.horizontal = horizontal
+
         position_in_length = 1 if self.horizontal else 0
         self._hit = [False for i in range(self._length[position_in_length])]
-
-        for i in range(self._length[position_in_length]):
-            self._hit.append(False)
 
 
     def shoot_at(self, point):
@@ -66,12 +64,15 @@ class Field:
         :return:
         """
         row,column = point
-        if self._ships[row][column]:
+        if self._ships[row][column] and self._ships[row][column] is not True:
+            #print(self._ships[row][column])
             self._ships[row][column].shoot_at(point)
+            ship = self._ships[row][column]
             self._ships[row][column] = True
-            return True
+            print('ship_obj = ', ship)
+            return ship
 
-        self._ships[row][column] = True
+        self._ships[row][column] = False
 
 
 
@@ -80,16 +81,30 @@ class Field:
 
         :return:
         """
-        field_str = ''
+        field_str = ' '
+        for i in range(1, 10):
+            field_str += '|' + ' ' + str(i) + ' '
+        field_str += '|' + ' ' + 'X' + ' ' + '|' + '\n'
+
+        for i in range(41): field_str += u"\u2594";
+        field_str += '\n'
+
         for row in range(10):
+            field_str += chr(65 + row) + '|'
             for column in range(10):
                 if self._ships[row][column] is True:
-                    field_str += 'X'
+                    field_str += ' X '
+                elif self._ships[row][column] is False:
+                    field_str += ' '+ u"\u2022" + ' '              # bullet
                 elif self._ships[row][column]:
-                    field_str += '*'
+                    field_str += ' * '
                 else:
-                    field_str += ' '
+                    field_str += '   '
+                field_str += '|'
 
+
+            field_str += '\n'
+            for i in range(41): field_str += u"\u2594";
             field_str += '\n'
 
         return field_str
@@ -116,6 +131,7 @@ class Player:
         :param name:
         """
         self._name = name
+        self.sunk_ships = 0
 
 
     def read_position(self):
@@ -125,12 +141,11 @@ class Player:
         """
         from string import ascii_uppercase
 
-        battleship_positions = [let + str(i) for let in ascii_uppercase[:10] for i in range(10)]
-        print()
-        list_positions = [(row, column) for row in range(1, 10 + 1)]
+        battleship_positions = [let + str(i) for let in ascii_uppercase[:10] for i in range(1, 10 + 1)]
+        list_positions = [(row, column) for row in range(10) for column in range(10)]
         convert_table = dict(zip(battleship_positions, list_positions))
 
-        battleship_position  = input(self.name + ', enter position to shoot at: ').strip()
+        battleship_position  = input(self._name + ', enter position to shoot at: ').strip()
         while battleship_position not in battleship_positions:
             battleship_position = input('There is no position you entered, try again: ').strip()
 
@@ -162,7 +177,17 @@ class Game:
         :return:
         """
         point = self._players[player_index].read_position()
-        return self._field[field_index].shoot_at(point)
+        ship = self._field[field_index].shoot_at(point)
+        print(ship)
+        try:
+            ship_len = ship._length[1] if ship.horizontal else ship._length[0]
+            if ship._hit == [True for i in range(ship_len)]:
+                self._players[player_index].sunk_ships += 1
+        except:
+            print('exception')
+            return
+
+        return ship
 
 
     def field_with_ships(self, index):
@@ -184,13 +209,16 @@ class Game:
         print(self._field[index].field_without_ships())
 
 
+    def check_winner(self, player_index):
+        """
 
+        :param player_index:
+        :return:
+        """
+        if self._players[player_index].sunk_ships == 10: return player_index
 
 
 #game = Game()
-#field = Field()
-
-#field.shoot_at((5,5))
-#field.shoot_at((5,6))
-#print(field._ships)
-#print(field.field_without_ships())
+#game.field_without_ships(0)
+#game.field_without_ships(1)
+#print(game.shoot_at(0,1))
