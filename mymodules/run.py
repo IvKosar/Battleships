@@ -13,8 +13,9 @@ game = Game()
 while True:
     os.system('cls')
 
-    if game.check_winner((game._current_player + 1) % 2):
-        winner = game._players[(game._current_player + 1) % 2]._name
+    if game.check_winner((game._current_player - 1) % 2):
+        winner = game._players[(game._current_player - 1) % 2]._name
+        print(winner, 'WON!')
         break
 
     print('\n')
@@ -28,4 +29,4 @@ while True:
 
     input('Press any key to start')
 
-print(winner, 'WON!')
+

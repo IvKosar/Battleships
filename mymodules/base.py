@@ -256,4 +256,4 @@ class Game:
         :param player_index: int
         :return: int or None
         """
-        if self._players[player_index].sunk_ships == 10: return player_index
+        if self._players[player_index].sunk_ships >= 10: return player_index
