@@ -24,6 +24,7 @@ class Ship(object):
 
         position_in_length = 1 if self.horizontal else 0
         self._hit = [False for i in range(self._length[position_in_length])]
+        self._killed = False
 
 
     def shoot_at(self, point):
@@ -40,6 +41,10 @@ class Ship(object):
             deck = point[0] - self.bow[0]
 
         self._hit[deck] = True
+        if sum(self._hit) == len(self._hit): self.killed = True
+
+        return self._killed
+
 
 
 class Field:
@@ -89,7 +94,7 @@ class Field:
         """
         row,column = point
         if self._ships[row][column] and self._ships[row][column] is not True:
-            self._ships[row][column].shoot_at(point)
+            if self._ships[row][column].shoot_at(point): return True ##########CHANGED##############
             ship = self._ships[row][column]
             self._ships[row][column] = True
 
@@ -175,9 +180,9 @@ class Player:
         compliance_table = dict(zip(battleship_positions, list_positions))
 
         # get coordinates from user until they are correct
-        battleship_position  = input(self._name + ', enter position to shoot at: ').strip()
+        battleship_position  = input(self._name + ', enter position to shoot at: ').strip().capitalize()
         while battleship_position not in battleship_positions:
-            battleship_position = input('There is no position you entered, try again: ').strip()
+            battleship_position = input('There is no position you entered, try again: ').strip().capitalize()
 
         return compliance_table[battleship_position]
 
@@ -190,10 +195,10 @@ class Game:
         """
         Initializes new game
         """
-        import os, time
+        import os
 
         player1_name = input('Player 1, enter your name: ')
-        os.system('cls')
+        os.system('clear')
         player2_name = input('Player 2, enter your name: ')
 
         self._players = [Player(player1_name), Player(player2_name)]

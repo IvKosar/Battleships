@@ -11,11 +11,11 @@ import time, os
 
 game = Game()
 while True:
-    os.system('cls')
+    os.system('clear')
+    input('Press any key to start')
 
-    if game.check_winner((game._current_player - 1) % 2):
-        winner = game._players[(game._current_player - 1) % 2]._name
-        print(winner, 'WON!')
+    if game.check_winner((game._current_player - 1) % 2) or game.check_winner(game._current_player):
+        winner = game._players[game._current_player]._name
         break
 
     print('\n')
@@ -27,6 +27,8 @@ while True:
         input("Press any key and give a computer to your opponent")
         game._current_player = (game._current_player + 1) % 2
 
-    input('Press any key to start')
+    time.sleep(1)
+    #input('Press any key to start')
 
-
+os.system('clear')
+print(winner, 'WON!')
