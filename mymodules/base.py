@@ -41,10 +41,9 @@ class Ship(object):
             deck = point[0] - self.bow[0]
 
         self._hit[deck] = True
-        if sum(self._hit) == len(self._hit): self.killed = True
+        if sum(self._hit) == len(self._hit): self._killed = True
 
         return self._killed
-
 
 
 class Field:
@@ -94,14 +93,14 @@ class Field:
         """
         row,column = point
         if self._ships[row][column] and self._ships[row][column] is not True:
-            if self._ships[row][column].shoot_at(point): return True ##########CHANGED##############
+            accurate_shoot = self._ships[row][column].shoot_at(point)
             ship = self._ships[row][column]
             self._ships[row][column] = True
+            if accurate_shoot: return True
 
             return ship
 
         self._ships[row][column] = False
-
 
 
     def field_with_ships(self):
@@ -191,15 +190,13 @@ class Game:
     """
     Combines Fields and Players
     """
-    def __init__(self):
+    def __init__(self, player1_name, player2_name):
         """
         Initializes new game
         """
         import os
 
-        player1_name = input('Player 1, enter your name: ')
-        os.system('clear')
-        player2_name = input('Player 2, enter your name: ')
+
 
         self._players = [Player(player1_name), Player(player2_name)]
         self._field = [Field(), Field()]
@@ -222,14 +219,13 @@ class Game:
 
         # check whether we hit a ship and if so whether ship is wounded or killed
         # and show it
-        try:
-            ship_len = ship._length[1] if ship.horizontal else ship._length[0]
-            if ship._hit == [True for i in range(ship_len)]:
-                self._players[player_index].sunk_ships += 1
-                print('\nKILLED!')
-            else:
-                print('\nWOUNDED!')
-        except:
+        #ship_len = ship._length[1] if ship.horizontal else ship._length[0]
+        if ship is True:
+            self._players[player_index].sunk_ships += 1
+            print('\nKILLED!')
+        elif ship:
+            print('\nWOUNDED!')
+        else:
             return
 
         return ship
